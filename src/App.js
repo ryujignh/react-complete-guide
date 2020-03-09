@@ -34,12 +34,24 @@ class App extends Component {
     }
 
     render() {
+
+        const style = {
+            backgroundColor: 'white',
+            font: 'inherit',
+            border: '1px solid blue',
+            padding: '8px',
+            cursor: 'pointer',
+        };
+
         return (
             <div className="App">
                 <h1>Hi, I'm a React App</h1>
                 <p>this is really sowking</p>
                 <p>{this.state.otherState}</p>
-                <button onClick={() => this.switchNameHandler('From the button!')}>Switch Name</button>
+                <button
+                    style={style}
+                    onClick={() => this.switchNameHandler('From the button!')}>Switch Name
+                </button>
                 <Person
                     name={this.state.persons[0].name}
                     age={this.state.persons[0].age}
@@ -49,7 +61,6 @@ class App extends Component {
                     age={this.state.persons[1].age}
                     click={this.switchNameHandler.bind(this, 'Arisa')}
                     changed={this.nameChangedHandler}
-
                 />
                 <Person
                     name={this.state.persons[2].name}
