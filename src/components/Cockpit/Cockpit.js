@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import classes from "./Cockpit.css";
 
 const cockpit = (props) => {
+    const toggleBtnRef = React.useRef(null);
+
+    useEffect(() => {
+        toggleBtnRef.current.click()
+    }, []);
 
     const assignedClasses = [];
     let btnClass = '';
@@ -19,12 +24,16 @@ const cockpit = (props) => {
     }
 
     return (
-        <div>
+        <div className={classes.Cockpit}>
             <h1>Hi, I'm a React App</h1>
             <p className={assignedClasses.join(' ')}>this is really sowking</p>
-            <button className={btnClass} onClick={props.clicked}>Toggle persons</button>
+            <button
+                ref={toggleBtnRef}
+                className={btnClass}
+                onClick={props.clicked}>Toggle persons
+            </button>
         </div>
     );
 };
 
-export default cockpit;
+export default React.memo(cockpit);
