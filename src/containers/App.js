@@ -4,6 +4,7 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 import withClass from '../hoc/withClass'
 import Aux from '../hoc/Aux'
+import AuthContext from '../context/auth-context'
 
 class App extends Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class App extends Component {
         otherState: 'Hello world',
         showPersons: false,
         changeCounter: 0,
-
+        authenticated: false,
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -39,6 +40,10 @@ class App extends Component {
         const doesShow = this.state.showPersons;
         this.setState({showPersons: !doesShow});
     };
+
+    loginHandler = () => {
+        this.setState({authenticated: true})
+    }
 
     nameChangedHandler = (event, id) => {
         const personIndex = this.state.persons.findIndex(p => {
@@ -78,19 +83,23 @@ class App extends Component {
                 <Persons
                     persons={this.state.persons}
                     clicked={this.deletePersonHandler}
-                    changed={this.nameChangedHandler}/>
+                    changed={this.nameChangedHandler}
+                    isAuthenticated={this.state.authenticated}
+                />
             );
         }
 
 
         return (
             <Aux>
-                <Cockpit
-                    showPersons={this.state.showPersons}
-                    persons={this.state.persons}
-                    clicked={this.togglePersonsHandler}
-                />
-                {persons}
+                <AuthContext.Provider value={{authenticated: this.state.authenticated, login: this.loginHandler}}>
+                    <Cockpit
+                        showPersons={this.state.showPersons}
+                        persons={this.state.persons}
+                        clicked={this.togglePersonsHandler}
+                    />
+                    {persons}
+                </AuthContext.Provider>
 
             </Aux>
         );
